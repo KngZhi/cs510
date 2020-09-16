@@ -1,12 +1,12 @@
 let rec mem x l =
         match x with
-        | [] -> False
-        | h::t -> if h = x then True else mem t
+        | [] -> false
+        | h::t -> if h = x then true else mem t
         | _ -> failwith "bad input"
 
 let rec has_dupl l =
         match x with
-        | [] -> False
+        | [] -> false
         | h::t -> mem h t || has_dupl t
 
 let rec is_singleton l =
@@ -19,7 +19,7 @@ let rec rev l =
         | [] -> []
         | h::t -> rev t @ [h]
 
-let rec rem_adj_dupl l:
+let rec rem_adj_dupl l =
         match l with
         | [] -> []
         | [x] -> [x]

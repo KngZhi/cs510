@@ -3,6 +3,16 @@ type program = int list
 let square : program = [0; 2; 2; 3; 3; 4; 4; 5; 5; 1]
 let letter_e : program = [0; 2; 2; 3; 3; 5; 5; 4; 3; 5; 4; 3; 3; 5; 5; 1]
 
+let rec map f l =
+  match l with
+  | [] -> []
+  | x::xs -> f x :: map f xs
+
+let rec fold_right f l a =
+  match l with
+  | [] -> a
+  | (x::xs) -> f x (fold_right f xs a)
+
 let draw_with_end (x:program): program = [0] @ x @ [1]
 
 (* return the list of coordinates that 

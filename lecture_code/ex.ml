@@ -5,7 +5,7 @@ let rec mem x l =
         | _ -> failwith "bad input"
 
 let rec has_dupl l =
-        match x with
+        match l with
         | [] -> false
         | h::t -> mem h t || has_dupl t
 

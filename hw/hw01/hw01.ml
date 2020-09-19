@@ -5,14 +5,6 @@ let rev_square = [0; 3; 3; 2; 2; 5; 5; 4; 4; 1]
 let counter_square = [0;2;2;3;3;5;5;4;4;1]
 let letter_e : program = [0; 2; 2; 3; 3; 5; 5; 4; 3; 5; 4; 3; 3; 5; 5; 1]
 
-let rec fold_right f l a =
-  match l with
-  | [] -> a
-  | (x::xs) -> f x (fold_right f xs a)
-
-let rec flatten = function [] -> [] 
-  | l::r -> l @ flatten r
-
 let rec colored_help (x,y) l = 
   match l with
   | [] -> []
@@ -77,13 +69,13 @@ let rec pantograph (x:int) (images:program) =
   | [] -> []
   | h::t -> if h = 0 || h = 1 then [h] @ pantograph x t else repeat x h @ pantograph x t
 
-let pantograph_m_helper x_times item = 
+let pantograph_m_helper x_times item =
   match item with
   | 0 -> [item]
   | 1 -> [item]
   | _ -> repeat x_times item
 
-let pantograph_m (enlarge_times:int) (images:program) = flatten (List.map (pantograph_m_helper enlarge_times) images)
+let pantograph_m (enlarge_times:int) (images:program) = List.flatten @@ List.map (pantograph_m_helper enlarge_times) images
 
 (* 6.2 pantograph_fold *)
 
@@ -94,7 +86,7 @@ let pantograph_f_helper x_times item acc =
   | _ -> repeat x_times item @ acc
 
 let pantograph_f (enlarge_times:int) (images:program) = 
-  fold_right (pantograph_f_helper enlarge_times) images []
+  List.fold_right (pantograph_f_helper enlarge_times) images []
 
 let rec compress_helper image = 
   match image with
@@ -115,8 +107,8 @@ let rec uncompress image =
 
 let uncompress_m_helper (x, y) = repeat y x
 
-let uncompress_m image = flatten(List.map uncompress_m_helper image)
+let uncompress_m image = List.flatten @@ List.map uncompress_m_helper image
 
 let uncompress_f_helper (x, y) acc = repeat y x @ acc
 
-let uncompress_f image = fold_right uncompress_f_helper image []
+let uncompress_f image = List.fold_right uncompress_f_helper image []

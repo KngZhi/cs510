@@ -1,3 +1,5 @@
+*.pdf
+
 *.annot
 *.cmo
 *.cma
@@ -27,4 +29,3 @@ setup.log
 
 # Local OPAM switch
 _opam/
-

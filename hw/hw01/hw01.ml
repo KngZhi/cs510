@@ -5,11 +5,6 @@ let rev_square = [0; 3; 3; 2; 2; 5; 5; 4; 4; 1]
 let counter_square = [0;2;2;3;3;5;5;4;4;1]
 let letter_e : program = [0; 2; 2; 3; 3; 5; 5; 4; 3; 5; 4; 3; 3; 5; 5; 1]
 
-let rec map f l =
-  match l with
-  | [] -> []
-  | x::xs -> f x :: map f xs
-
 let rec fold_right f l a =
   match l with
   | [] -> a
@@ -56,7 +51,7 @@ let mirror_image' x =
   | 5 -> 3
   | _ -> x
 
-let mirror_image image = map mirror_image' image
+let mirror_image image = List.map mirror_image' image
 
 (* 4. rotate image 90 degrees*)
 
@@ -68,7 +63,7 @@ let rotate_image_90_helper x =
   | 5 -> 2
   | _ -> x
 
-let rotate_image_90 images = map rotate_image_90_helper images
+let rotate_image_90 images = List.map rotate_image_90_helper images
 
 (* 5. repeat function *)
 let rec repeat (r_times:int) x =
@@ -88,7 +83,7 @@ let pantograph_m_helper x_times item =
   | 1 -> [item]
   | _ -> repeat x_times item
 
-let pantograph_m (enlarge_times:int) (images:program) = flatten (map (pantograph_m_helper enlarge_times) images)
+let pantograph_m (enlarge_times:int) (images:program) = flatten (List.map (pantograph_m_helper enlarge_times) images)
 
 (* 6.2 pantograph_fold *)
 
@@ -111,7 +106,7 @@ let rec compress_helper image =
     else (x,y) :: compress_helper((x_1, y_1)::l)
 
 let compress image = 
-  compress_helper (map (fun x -> (x, 1)) image)
+  compress_helper (List.map (fun x -> (x, 1)) image)
 (* 8. uncpmress *)
 let rec uncompress image =
   match image with
@@ -120,7 +115,7 @@ let rec uncompress image =
 
 let uncompress_m_helper (x, y) = repeat y x
 
-let uncompress_m image = flatten(map uncompress_m_helper image)
+let uncompress_m image = flatten(List.map uncompress_m_helper image)
 
 let uncompress_f_helper (x, y) acc = repeat y x @ acc
 

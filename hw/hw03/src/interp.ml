@@ -65,17 +65,22 @@ and
     eval_expr e2 >>= fun v2 ->
     apply_proc v1 v2 
   | Abs(e1)      ->
-    error "implement"
+    eval_expr e1 >>= 
+    int_of_numVal >>= fun v1 ->
+      if v1 < 0 
+      then return (NumVal (-v1))
+      else return (NumVal v1)
   | Cons(e1, e2) ->
-    error "implement"
+    eval_expr e1 >>= fun v1 ->
+    eval_expr e2 >>= list_of_listVal >>= fun v2 ->
+    return @@ ListVal ([v1] @ v2)
   | Hd(e1) ->
     error "implement"
   | Tl(e1) ->
     error "implement"
-  | Empty(e1) ->
+  | Empty(e1) -> 
     error "implement"
-  | EmptyList ->
-    error "implement"
+  | EmptyList -> return @@ ListVal []
   | EmptyTree ->
     error "implement"
   | Node(e1,lte,rte) ->
@@ -105,6 +110,3 @@ let lexer s =
 let interp (e:string) : exp_val result =
   let c = e |> parse |> eval_prog
   in run c
-
-
-

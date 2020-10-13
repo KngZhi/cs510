@@ -84,11 +84,12 @@ let pantograph_m (enlarge_times:int) (images:program): program = List.flatten @@
 
 (* 6.2 pantograph_fold *)
 
-let pantograph_f_helper: int -> int -> int list -> int list = fun x_times item acc ->
-  match item with
-  | 0 -> item :: acc
-  | 1 -> item :: acc
-  | _ -> repeat x_times item @ acc
+let pantograph_f_helper: int -> int -> int list -> int list = 
+  fun x_times item acc ->
+    match item with
+    | 0 -> item :: acc
+    | 1 -> item :: acc
+    | _ -> repeat x_times item @ acc
 
 let pantograph_f (enlarge_times:int) (images:program): program = 
   List.fold_right (pantograph_f_helper enlarge_times) images []

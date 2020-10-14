@@ -85,10 +85,10 @@ and
     if len == 0 
     then error "list is empty"
     else return @@ List.nth n (len - 1)
+    (* Q: 为什么我没有加 ？ 编译的时候必须加问号 *)
   | Empty(e1) -> 
-    error ""
-    (* eval_expr e1 >>= list_of_listVal >>= fun n -> 
-    return @@ BoolVal @@ (List.length n == 0) *)
+    eval_expr e1 >>= list_of_listVal >>= fun n -> 
+    return @@ BoolVal (List.length n == 0)
   | EmptyList -> return @@ ListVal []
   | EmptyTree ->
     error "implement"

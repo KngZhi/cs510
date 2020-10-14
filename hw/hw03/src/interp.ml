@@ -81,9 +81,10 @@ and
     else return @@ List.hd n
   | Tl(e1) ->
     eval_expr e1 >>= list_of_listVal >>= fun n ->
-    if List.length n == 0 
+    let len = List.length n in
+    if len == 0 
     then error "list is empty"
-    else return @@ List.tl n
+    else return @@ List.nth n (len - 1)
   | Empty(e1) -> 
     error ""
     (* eval_expr e1 >>= list_of_listVal >>= fun n -> 

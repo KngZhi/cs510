@@ -84,8 +84,10 @@ and
     let len = List.length n in
     if len == 0 
     then error "list is empty"
-    else return @@ List.nth n (len - 1)
-    (* Q: 为什么我没有加 ？ 编译的时候必须加问号 *)
+    else 
+      if len == 1
+      then return @@ ListVal []
+      else return @@ List.nth n (len - 1)
   | Empty(e1) -> 
     eval_expr e1 >>= list_of_listVal >>= fun n -> 
     return @@ BoolVal (List.length n == 0)

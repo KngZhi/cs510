@@ -75,11 +75,19 @@ and
     eval_expr e2 >>= list_of_listVal >>= fun v2 ->
     return @@ ListVal ([v1] @ v2)
   | Hd(e1) ->
-    error "implement"
+    eval_expr e1 >>= list_of_listVal >>= fun n ->
+    if List.length n == 0 
+    then error "list is empty"
+    else return @@ List.hd n
   | Tl(e1) ->
-    error "implement"
+    eval_expr e1 >>= list_of_listVal >>= fun n ->
+    if List.length n == 0 
+    then error "list is empty"
+    else return @@ List.tl n
   | Empty(e1) -> 
-    error "implement"
+    error ""
+    (* eval_expr e1 >>= list_of_listVal >>= fun n -> 
+    return @@ BoolVal @@ (List.length n == 0) *)
   | EmptyList -> return @@ ListVal []
   | EmptyTree ->
     error "implement"

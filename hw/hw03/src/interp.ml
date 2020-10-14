@@ -87,7 +87,7 @@ and
     else 
       if len == 1
       then return @@ ListVal []
-      else return @@ List.nth n (len - 1)
+      else return @@ ListVal (List.tl n)
   | Empty(e1) -> 
     eval_expr e1 >>= list_of_listVal >>= fun n -> 
     return @@ BoolVal (List.length n == 0)

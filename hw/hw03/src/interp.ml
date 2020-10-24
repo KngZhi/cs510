@@ -92,10 +92,12 @@ and
     eval_expr e1 >>= list_of_listVal >>= fun n -> 
     return @@ BoolVal (List.length n == 0)
   | EmptyList -> return @@ ListVal []
-  | EmptyTree ->
-    error "implement"
+  | EmptyTree -> return @@ TreeVal Empty
   | Node(e1,lte,rte) ->
-    error "implement"
+    eval_expr e1 >>= fun n -> 
+    eval_expr lte >>= tree_of_treeVal >>= fun l ->
+    eval_expr rte >>= tree_of_treeVal >>= fun r ->
+    return @@ TreeVal(Node(n, l, r))
   | CaseT(target,emptycase,id1,id2,id3,nodecase) ->
     error "implement"
 and

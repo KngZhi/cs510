@@ -92,6 +92,10 @@ let tests_extensions = [
                  (Ok (ListVal [NumVal 2; NumVal 1]))
                  (interp "tl(cons(3, cons(2, cons(1, emptylist))))"));
 
+  "caset_empty" >:: (fun _ -> assert_equal                 
+                 (Ok (TreeVal Empty))
+                 (interp "caseT emptytree of { emptytree -> emptytree, node(a, l, r) -> l } "));
+
   "null_true" >:: (fun _ -> assert_equal                 
                  (Ok (BoolVal true))
                  (interp "empty?(tl(cons(1, emptylist)))"));

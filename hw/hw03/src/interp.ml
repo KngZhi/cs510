@@ -1,3 +1,4 @@
+(* Name: Junwei Chen *)
 open Ast
 open Ds
              
@@ -102,7 +103,10 @@ and
     eval_expr target >>= tree_of_treeVal >>= fun n ->
       match n with
       | Empty -> eval_expr emptycase
-      | Node(x, y, z) -> extend_env id1 x >>+ eval_expr nodecase
+      | Node(x, y, z) -> (extend_env id1 x) >>+ 
+          (extend_env id2 @@ TreeVal y) >>+ 
+          (extend_env id3 @@ TreeVal z) >>+
+          eval_expr nodecase
 and
   eval_prog (AProg e) = eval_expr e
 

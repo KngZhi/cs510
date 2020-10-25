@@ -101,9 +101,48 @@ let tests_extensions = [
                  (interp "caseT emptytree of { emptytree -> 3, node(a, l, r) -> l } "));
 
   "caset_left" >:: (fun _ -> assert_equal                 
-                 (Ok (TreeVal Empty))
+                 (Ok (TreeVal (Node (NumVal 5, Empty, Empty))))
                  (interp "let t = node(emptylist, node(5, emptytree, emptytree), emptytree) in 
                     caseT t of { emptytree -> emptytree, node(a, l, r) -> l } "));
+  "caset_right" >:: (fun _ -> assert_equal                 
+                 (Ok (TreeVal (Node (NumVal 3, Empty, Empty))))
+                 (interp "let t = node(emptylist, 
+                    node(5, emptytree, emptytree), 
+                    node(3, emptytree, emptytree)) in 
+                    caseT t of { emptytree -> emptytree, node(a, l, r) -> r } "));
+  "caset_using_list_as_key" >:: (fun _ -> assert_equal                 
+                 (Ok (TreeVal (Node (ListVal [NumVal 5], Empty, Empty))))
+                 (interp "let t = node(1,
+                    node(cons(5, emptylist), emptytree, emptytree), 
+                    node(3, emptytree, emptytree)) in 
+                    caseT t of { emptytree -> emptytree, node(a, l, r) -> l } "));
+  "caset_using_if" >:: (fun _ -> assert_equal                 
+                 (Ok (TreeVal (Node (ListVal [NumVal 5], Empty, Empty))))
+                 (interp "let t = node(emptylist,
+                    node(cons(5, emptylist), emptytree, emptytree), 
+                    node(3, emptytree, emptytree)) in 
+                    caseT t of { emptytree -> emptytree, 
+                    node(a, l, r) -> if empty?(a) then l else r } "));
+  "caset_using_hw03" >:: (fun _ -> assert_equal                 
+                 (Ok (NumVal 99))
+                 (interp "let t = node(emptylist , node(cons(5, cons(2, cons(1, emptylist ))), emptytree , node(emptylist, emptytree , emptytree ) ), node(tl(cons(5, emptylist )), node(cons (10, cons(9, cons(8, emptylist ))), emptytree , emptytree), node(emptylist , node(cons(9, emptylist), emptytree , emptytree), emptytree)))
+                          in caseT t of { 
+                            emptytree -> 10,
+                            node(a,l,r) -> 
+                              if empty?(a) 
+                                then caseT l of 
+                                  { 
+                                      emptytree -> 21, 
+                                      node(b,ll ,rr) -> 
+                                        if empty?(b) 
+                                          then 4 
+                                          else 
+                                            if zero?(hd(b)) 
+                                            then 22 
+                                            else  99
+                                  }
+                                else 5
+                            }"));
 
   "null_true" >:: (fun _ -> assert_equal                 
                  (Ok (BoolVal true))

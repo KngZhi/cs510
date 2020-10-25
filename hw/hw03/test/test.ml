@@ -96,6 +96,15 @@ let tests_extensions = [
                  (Ok (TreeVal Empty))
                  (interp "caseT emptytree of { emptytree -> emptytree, node(a, l, r) -> l } "));
 
+  "caset_empty_other_types" >:: (fun _ -> assert_equal                 
+                 (Ok (NumVal 3))
+                 (interp "caseT emptytree of { emptytree -> 3, node(a, l, r) -> l } "));
+
+  "caset_left" >:: (fun _ -> assert_equal                 
+                 (Ok (TreeVal Empty))
+                 (interp "let t = node(emptylist, node(5, emptytree, emptytree), emptytree) in 
+                    caseT t of { emptytree -> emptytree, node(a, l, r) -> l } "));
+
   "null_true" >:: (fun _ -> assert_equal                 
                  (Ok (BoolVal true))
                  (interp "empty?(tl(cons(1, emptylist)))"));

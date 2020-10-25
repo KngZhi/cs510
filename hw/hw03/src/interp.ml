@@ -99,10 +99,10 @@ and
     eval_expr rte >>= tree_of_treeVal >>= fun r ->
     return @@ TreeVal(Node(n, l, r))
   | CaseT(target,emptycase,id1,id2,id3,nodecase) ->
-    eval_expr target >>= tree_of_treeVal >>= fun n -> 
+    eval_expr target >>= tree_of_treeVal >>= fun n ->
       match n with
-      | Empty -> eval_expr emptycase >>= tree_of_treeVal >>= fun empty ->  return @@ TreeVal Empty  
-      | _ -> eval_expr nodecase >>= tree_of_treeVal >>= fun node -> return @@ BoolVal false
+      | Empty -> eval_expr emptycase
+      | Node(x, y, z) -> extend_env id1 x >>+ eval_expr nodecase
 and
   eval_prog (AProg e) = eval_expr e
 
